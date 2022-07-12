@@ -15,40 +15,60 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
     const { id } = req.params;
     PostsModel.findById(id)
-        .then(post => {
+    .then(post => {
+        if(post){
             res.status(200).json(post);
-        });
+            return;
+        }
+        res.status(404).json({ message: "does not exist" })
+    })
 });
 
 router.post('/', (req, res) => {
     PostsModel.insert(req.body)
-        .then(createdPost => {
-            res.status(201).json(createdPost);
-        })
+    .then(post => {
+        if(post){
+            res.status(201).json(post);
+            return;
+        }
+        res.status(404).json({ message: "The posts information could not be retrieved" })
+    })
 })
 
 router.put('/:id', (req, res) => {
     const { id } = req.params;
     PostsModel.update(id, req.body)
-        .then(updatedPost => {
-            res.status(200).json(updatedPost);
-        })
+    .then(post => {
+        if(post){
+            res.status(200).json(post);
+            return;
+        }
+        res.status(404).json({ message: "The posts information could not be retrieved" })
+    })
 })
 
 router.delete('/:id', (req, res) => {
     const { id } = req.params;
     PostsModel.remove(id)
-        .then(deletedPost => {
-            res.status(200).json(deletedPost);
-        })
+    .then(post => {
+        if(post){
+            res.status(200).json(post);
+            return;
+        }
+        res.status(404).json({ message: "The posts information could not be retrieved" })
+    })
 })
 
 router.get('/:id/comments', (req, res) => {
     const { id } = req.params;
     PostsModel.findPostComments(id)
-        .then(comments => {
-            res.status(200).json(comments)
-        })
+    .then(post => {
+        if(post){
+            res.status(200).json(post);
+            return;
+        }
+        res.status(404).json({ message: "The posts information could not be retrieved" })
+    })
 })
 
 module.exports = router;
