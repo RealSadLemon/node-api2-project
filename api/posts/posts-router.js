@@ -35,4 +35,12 @@ router.put('/:id', (req, res) => {
         })
 })
 
+router.delete('/:id', (req, res) => {
+    const { id } = req.params;
+    PostsModel.remove(id)
+        .then(deletedPost => {
+            res.status(200).json(deletedPost);
+        })
+})
+
 module.exports = router;
