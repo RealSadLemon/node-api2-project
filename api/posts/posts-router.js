@@ -43,4 +43,12 @@ router.delete('/:id', (req, res) => {
         })
 })
 
+router.get('/:id/comments', (req, res) => {
+    const { id } = req.params;
+    PostsModel.findPostComments(id)
+        .then(comments => {
+            res.status(200).json(comments)
+        })
+})
+
 module.exports = router;
