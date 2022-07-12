@@ -27,6 +27,12 @@ router.post('/', (req, res) => {
         })
 })
 
-
+router.put('/:id', (req, res) => {
+    const { id } = req.params;
+    PostsModel.update(id, req.body)
+        .then(updatedPost => {
+            res.status(200).json(updatedPost);
+        })
+})
 
 module.exports = router;
