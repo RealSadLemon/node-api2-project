@@ -20,4 +20,13 @@ router.get('/:id', (req, res) => {
         });
 });
 
+router.post('/', (req, res) => {
+    PostsModel.insert(req.body)
+        .then(createdPost => {
+            res.status(201).json(createdPost);
+        })
+})
+
+
+
 module.exports = router;
