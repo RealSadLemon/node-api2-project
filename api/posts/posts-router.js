@@ -46,8 +46,11 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
     const { id } = req.params;
     PostsModel.update(id, req.body)
-        .then(updatedPost => {
-            res.status(200).json(updatedPost);
+        .then(postId => {
+            PostsModel.findById(postId)
+                .then(post => {
+                    res.status(200).json(post);
+                })
         })
 })
 
