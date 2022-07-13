@@ -20,7 +20,7 @@ router.get('/:id', (req, res) => {
             res.status(200).json(post);
             return;
         }
-        res.status(404).json({ message: "The posts information could not be retrieved" })
+        res.status(404).json({ message: "does not exist" })
     })
 });
 
@@ -31,7 +31,10 @@ router.post('/', (req, res) => {
         .then(createdPost => {
             PostsModel.findById(createdPost.id)
                 .then(post => {
-                    res.status(201).json(post);
+                    if(post){
+                        res.status(201).json(post);
+                    }
+                    res.status(400)
                 })
         })
 })
