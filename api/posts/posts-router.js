@@ -45,10 +45,19 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res) => {
     const { id } = req.params;
+    const body = req.body;
+    if(!body.title || !body.contents){
+        res.status(400).json({ message: "Please provide title and contents for the post"})
+        return;
+    }
     PostsModel.update(id, req.body)
         .then(postId => {
             PostsModel.findById(postId)
                 .then(post => {
+                    if(post == null){
+                        res.status(404).json({ message: "Does not exist"});
+                        return;
+                    }
                     res.status(200).json(post);
                 })
         })
