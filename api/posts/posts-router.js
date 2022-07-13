@@ -65,16 +65,34 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
     const { id } = req.params;
+    let postObj;
+    PostsModel.findById(id)
+        .then(post => {
+            postObj = post;
+        })
     PostsModel.remove(id)
-        .then(deletedPost => {
-            res.status(200).json(deletedPost);
+        .then(post => {
+            if(postObj == null){
+                res.status(404).json({ message: "Post does not exist" });
+                return;
+            }
+            res.status(200).json(postObj);
         })
 })
 
 router.get('/:id/comments', (req, res) => {
     const { id } = req.params;
+    let postExists;
+    PostsModel.findById(id)
+        .then(post => {
+            postExists = post;
+        })
     PostsModel.findPostComments(id)
         .then(comments => {
+            if(postExists == null){
+                res.status(404).json({ message: "Post does not exist" })
+                return;
+            }
             res.status(200).json(comments)
         })
 })
