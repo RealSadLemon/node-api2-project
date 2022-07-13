@@ -26,17 +26,21 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
     const body = req.body;
-    console.log(body)
-    PostsModel.insert(body)
-        .then(createdPost => {
-            PostsModel.findById(createdPost.id)
-                .then(post => {
-                    if(post){
-                        res.status(201).json(post);
-                    }
-                    res.status(400)
-                })
-        })
+    const { title, contents } = body;
+    if(!body.title || !body.contents){
+        res.status(400).json({ message: "Please provide title and contents for the post"})
+        return;
+    } else {
+        PostsModel.insert(body)
+            .then(createdPost => {
+                PostsModel.findById(createdPost.id)
+                    .then(post => {
+                        if(post){
+                            res.status(201).json(post);
+                        }
+                    })
+            })
+    }
 })
 
 router.put('/:id', (req, res) => {
